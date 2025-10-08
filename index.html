@@ -13,12 +13,13 @@
   <!-- Stars -->
   <canvas id="stars" aria-hidden="true"></canvas>
 
-  <!-- HERO “costellazione” -->
+  <!-- HERO centrato -->
   <header class="site-header">
     <div id="hero" class="hero">
       <div class="hero-halo" aria-hidden="true"></div>
       <h1 class="brand">BUBBLEVERSE</h1>
       <p class="tagline">Cosmic Thought Cloud</p>
+      <!-- Centro orbite controllato via --cx / --cy -->
       <div class="orbits" aria-hidden="true">
         <span class="orb o1"></span>
         <span class="orb o2"></span>
@@ -35,7 +36,7 @@
     </main>
   </div>
 
-  <!-- Mini composer “a bolla” -->
+  <!-- Composer: modale centrale -->
   <div id="composer" class="composer" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="composer-panel">
       <button class="btn icon close" id="composerClose" aria-label="Close">✕</button>
@@ -48,7 +49,7 @@
     </div>
   </div>
 
-  <!-- Edit modal (per modificare le bolle esistenti) -->
+  <!-- Edit modal -->
   <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-panel" role="document">
       <button class="btn icon close" id="closeModal" aria-label="Close">✕</button>

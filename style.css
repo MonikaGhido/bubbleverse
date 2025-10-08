@@ -16,21 +16,22 @@ body{
     linear-gradient(180deg, var(--space1), var(--space2));
   overflow:hidden; min-height:100vh; position:relative;
 }
-/* Nebula overlay: usa 'universe.jpg' nella stessa cartella */
+/* Nebula overlay: metti 'universe.jpg' accanto ai file */
 body::before{
   content:""; position:fixed; inset:0; z-index:0;
   background: url('universe.jpg') center/cover no-repeat;
-  opacity:.22; filter: saturate(115%) contrast(110%) brightness(105%) blur(0.2px);
+  opacity:.22; filter: saturate(115%) contrast(110%) brightness(105%) blur(.2px);
   pointer-events:none;
 }
 #stars{ position:fixed; inset:0; z-index:1; display:block; }
 
-/* HERO */
+/* HERO centrato */
 .site-header{
-  position:fixed; top:0; left:0; width:100vw; z-index:20;
-  pointer-events:none; padding-top:10px; background:transparent;
+  position: fixed; inset: 0;
+  display:flex; align-items:center; justify-content:center;
+  z-index:20; pointer-events:none; background:transparent;
 }
-.hero{ position:relative; width:fit-content; margin:10px auto 0; padding:14px 26px 18px; }
+.hero{ position:relative; width:fit-content; margin:0 auto; padding:14px 26px 18px; }
 .hero-halo{
   position:absolute; inset:-18px -28px -22px -28px; border-radius:32px;
   background:
@@ -40,7 +41,7 @@ body::before{
 }
 .brand{
   margin:0; text-align:center; letter-spacing:.55rem; font-weight:600;
-  font-size:clamp(30px, 3.2vw, 56px);
+  font-size:clamp(28px, 2.8vw, 48px);
   background: linear-gradient(90deg, #fff, var(--glow1), var(--glow2), #fff);
   -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
   text-shadow: 0 0 24px rgba(137,194,255,.25);
@@ -49,16 +50,20 @@ body::before{
   margin:.25rem 0 0; text-align:center; color:var(--muted);
   letter-spacing:.32rem; text-transform:uppercase; font-size:.9rem
 }
-.orbits{ position:absolute; inset:0; pointer-events:none; }
+
+/* Orbite: il punto (0,0) è il centro impostato via --cx/--cy */
+.orbits{
+  position:absolute; left:0; top:0; width:0; height:0; pointer-events:none;
+  transform: translate(var(--cx, 0px), var(--cy, 0px));
+}
 .orb{
-  position:absolute; left:50%; top:50%; width:10px; height:10px; border-radius:50%;
+  position:absolute; left:0; top:0; width:10px; height:10px; border-radius:50%;
   background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.65) 38%, rgba(255,255,255,.1) 80%);
-  box-shadow: 0 0 20px rgba(180,210,255,.65);
-  transform: translate(-50%,-50%); opacity:.85;
+  box-shadow: 0 0 20px rgba(180,210,255,.65); opacity:.85;
 }
 @keyframes orbit{
-  from{ transform: translate(-50%,-50%) rotate(0deg) translateX(var(--R)) rotate(0deg);}
-  to{   transform: translate(-50%,-50%) rotate(360deg) translateX(var(--R)) rotate(-360deg);}
+  from{ transform: rotate(0deg) translateX(var(--R)) rotate(0deg);}
+  to{   transform: rotate(360deg) translateX(var(--R)) rotate(-360deg);}
 }
 .orb.o1{ --R:120px; animation:orbit 26s linear infinite;}
 .orb.o2{ --R:165px; animation:orbit 33s linear infinite; width:8px;height:8px; opacity:.7}
@@ -74,7 +79,7 @@ body::before{
 body, html { overflow: hidden; }
 #main-scroll{ position:fixed; inset:0; width:100vw; height:100vh; overflow:hidden; z-index:2; background:transparent; }
 
-/* Buttons (generic) */
+/* Buttons */
 .btn{background:transparent; border:1px solid rgba(255,255,255,.2); color:var(--text);
   padding:.7rem 1rem; border-radius:16px; cursor:pointer; transition:.25s; backdrop-filter:blur(6px)}
 .btn:hover{transform:translateY(-1px); border-color:rgba(255,255,255,.35)}
@@ -82,7 +87,7 @@ body, html { overflow: hidden; }
 .btn.icon{width:40px; height:40px; display:grid; place-items:center}
 .btn.danger{background:linear-gradient(135deg, #ff6b7b, #f95f9a); border:none}
 
-/* Bubbles (user + “add”) */
+/* Bubble */
 .bubble{
   --size: 160px; --hue: 220;
   position:absolute; width:var(--size); height:var(--size);
@@ -132,7 +137,7 @@ body, html { overflow: hidden; }
   letter-spacing:.06em;
 }
 
-/* Edit modal – alto z-index */
+/* Modale Edit */
 .modal{
   position:fixed; inset:0; background:rgba(5,8,18,.4);
   display:none; align-items:center; justify-content:center; z-index: 200;
@@ -153,21 +158,20 @@ body, html { overflow: hidden; }
 }
 #closeModal{position:absolute; right:.6rem; top:.6rem}
 
-/* Mini composer a bolla */
+/* Composer = modale centrale */
 .composer{
-  position:fixed; inset:0; display:none; align-items:flex-start; justify-content:flex-start;
-  z-index:220; pointer-events:none; /* container trasparente: i click passano fuori */
+  position: fixed; inset: 0;
+  display: none; align-items: center; justify-content: center;
+  z-index: 220; background: rgba(5,8,18,.40); backdrop-filter: blur(6px);
+  pointer-events: auto;
 }
 .composer.show{ display:flex; }
 .composer-panel{
-  position:absolute; top:0; left:0; transform:translate(-50%,-110%);
-  width:min(420px, 92vw);
-  border-radius:22px;
-  background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow:0 18px 70px rgba(10,20,40,.55);
-  padding:1rem 1rem .9rem;
-  pointer-events:auto; /* questa cattura i click */
+  position: relative; width: min(560px, 92vw);
+  padding: 1.25rem 1.25rem 1rem; border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+  border: 1px solid rgba(255,255,255,.18); box-shadow: 0 20px 80px rgba(10,20,40,.5);
+  pointer-events: auto;
 }
 .composer-title{ margin:0 0 .35rem; }
 #composerText{
@@ -188,8 +192,5 @@ body, html { overflow: hidden; }
 @media (max-width: 768px){
   .brand{letter-spacing:.35rem}
   .bubble{--size: 100px}
-  .site-header{padding-top:.4rem;}
-  .stage { width:200vw; height:180vh; overflow:visible; }
-  #main-scroll { overflow:scroll; }
-  .composer-panel{ transform:translate(-50%,-104%); }
+  .composer-panel{ width:min(520px, 92vw); }
 }
