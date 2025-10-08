@@ -10,23 +10,45 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Stars -->
   <canvas id="stars" aria-hidden="true"></canvas>
 
+  <!-- HERO “costellazione” -->
   <header class="site-header">
-    <h1 class="brand">BUBBLEVERSE</h1>
-    <p class="tagline">Cosmic Thought Cloud</p>
+    <div id="hero" class="hero">
+      <div class="hero-halo" aria-hidden="true"></div>
+      <h1 class="brand">BUBBLEVERSE</h1>
+      <p class="tagline">Cosmic Thought Cloud</p>
+      <div class="orbits" aria-hidden="true">
+        <span class="orb o1"></span>
+        <span class="orb o2"></span>
+        <span class="orb o3"></span>
+        <span class="orb o4"></span>
+        <span class="orb o5"></span>
+      </div>
+    </div>
   </header>
-
-  <button id="addBtn" class="btn primary fab" aria-label="Add bubble">+</button>
-
 
   <div id="main-scroll">
     <main id="stage" class="stage" aria-live="polite" aria-label="Floating bubbles area">
-      <!-- Bubbles will be injected here -->
+      <!-- Bubbles injected by JS -->
     </main>
   </div>
 
-  <!-- Modal -->
+  <!-- Mini composer “a bolla” -->
+  <div id="composer" class="composer" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="composer-panel">
+      <button class="btn icon close" id="composerClose" aria-label="Close">✕</button>
+      <h3 class="composer-title">New Thought</h3>
+      <textarea id="composerText" maxlength="280" placeholder="Write something dreamy…"></textarea>
+      <div class="row">
+        <button id="composerSave" class="btn primary">Save</button>
+        <button id="composerCancel" class="btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit modal (per modificare le bolle esistenti) -->
   <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-panel" role="document">
       <button class="btn icon close" id="closeModal" aria-label="Close">✕</button>

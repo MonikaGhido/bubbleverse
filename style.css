@@ -1,91 +1,80 @@
-/* ===== Bubbleverse — Futuristic Dream UI ===== */
+/* ===== Bubbleverse — Cosmic Aesthetic ===== */
 :root{
-  --bg1:#0f1633; --bg2:#1a2247; --nebula1:#5c7cff; --nebula2:#b16fff;
-  --text:#e9f0ff; --muted:#a7b2d6; --glass:rgba(255,255,255,.08);
-  --glow:#7bd5ff;
+  --space1:#071124; --space2:#0c1730;
+  --glow1:#89c2ff; --glow2:#a891ff; --glow3:#ffd27e;
+  --text:#eaf3ff;  --muted:#a7b2d6;
+  --glass:rgba(255,255,255,.08);
 }
 *{box-sizing:border-box}
 html,body{height:100%; min-height:100vh;}
 body{
   margin:0; font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;
   color:var(--text);
-  background: radial-gradient(1200px 800px at 20% 20%, #1b2350 0%, #0d122b 50%, #090d1e 100%),
-              radial-gradient(800px 600px at 80% 30%, #1b1740 0%, #0c1026 100%),
-              linear-gradient(180deg, var(--bg1), var(--bg2));
-  overflow:hidden;
-  min-height:100vh;
+  background:
+    radial-gradient(1200px 800px at 10% 15%, #132a58 0%, #0a1732 55%, #071124 100%),
+    radial-gradient(900px 600px at 80% 25%, #0d1b3c 0%,  #061026 100%),
+    linear-gradient(180deg, var(--space1), var(--space2));
+  overflow:hidden; min-height:100vh; position:relative;
 }
-/* subtle stars canvas sits behind all */
-#stars{
-  position:fixed; inset:0; z-index:0; display:block;
+/* Nebula overlay: usa 'universe.jpg' nella stessa cartella */
+body::before{
+  content:""; position:fixed; inset:0; z-index:0;
+  background: url('universe.jpg') center/cover no-repeat;
+  opacity:.22; filter: saturate(115%) contrast(110%) brightness(105%) blur(0.2px);
+  pointer-events:none;
 }
+#stars{ position:fixed; inset:0; z-index:1; display:block; }
 
-/* Header */
+/* HERO */
 .site-header{
-  position:fixed; top:0; left:0; width:100vw;
-  text-align:center; z-index:20; user-select:none; pointer-events:none;
-  padding-top:2rem;
-  background: linear-gradient(180deg, rgba(15,22,51,0.95) 80%, rgba(15,22,51,0) 100%);
-  box-sizing:border-box;
+  position:fixed; top:0; left:0; width:100vw; z-index:20;
+  pointer-events:none; padding-top:10px; background:transparent;
 }
-.brand{letter-spacing:.5rem; font-weight:600; margin:0; font-size:clamp(28px, 2.6vw, 48px); text-shadow:0 0 24px rgba(123,213,255,.25)}
-.tagline{margin:.25rem 0 1rem; color:var(--muted); letter-spacing:.3rem; text-transform:uppercase; font-size:.9rem}
-#addBtn:not(.fab){display:none}
+.hero{ position:relative; width:fit-content; margin:10px auto 0; padding:14px 26px 18px; }
+.hero-halo{
+  position:absolute; inset:-18px -28px -22px -28px; border-radius:32px;
+  background:
+    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.55) 0%, rgba(255,255,255,.08) 24%, rgba(255,255,255,0) 60%),
+    radial-gradient(100% 100% at 80% 70%, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 55%);
+  filter: blur(6px); opacity:.7; pointer-events:none;
+}
+.brand{
+  margin:0; text-align:center; letter-spacing:.55rem; font-weight:600;
+  font-size:clamp(30px, 3.2vw, 56px);
+  background: linear-gradient(90deg, #fff, var(--glow1), var(--glow2), #fff);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  text-shadow: 0 0 24px rgba(137,194,255,.25);
+}
+.tagline{
+  margin:.25rem 0 0; text-align:center; color:var(--muted);
+  letter-spacing:.32rem; text-transform:uppercase; font-size:.9rem
+}
+.orbits{ position:absolute; inset:0; pointer-events:none; }
+.orb{
+  position:absolute; left:50%; top:50%; width:10px; height:10px; border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.65) 38%, rgba(255,255,255,.1) 80%);
+  box-shadow: 0 0 20px rgba(180,210,255,.65);
+  transform: translate(-50%,-50%); opacity:.85;
+}
+@keyframes orbit{
+  from{ transform: translate(-50%,-50%) rotate(0deg) translateX(var(--R)) rotate(0deg);}
+  to{   transform: translate(-50%,-50%) rotate(360deg) translateX(var(--R)) rotate(-360deg);}
+}
+.orb.o1{ --R:120px; animation:orbit 26s linear infinite;}
+.orb.o2{ --R:165px; animation:orbit 33s linear infinite; width:8px;height:8px; opacity:.7}
+.orb.o3{ --R:210px; animation:orbit 38s linear infinite; width:12px;height:12px;}
+.orb.o4{ --R:255px; animation:orbit 44s linear infinite; width:9px;height:9px; opacity:.75}
+.orb.o5{ --R:295px; animation:orbit 52s linear infinite; width:7px;height:7px; opacity:.6}
 
-/* Floating Action Button (FAB) visibile in basso a destra */
-.fab {
-  position: fixed;
-  right: 1.2rem;
-  bottom: 1.2rem;
-  z-index: 30;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  font-size: 2.2rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 6px 32px rgba(60,120,255,.18);
-  background: linear-gradient(135deg, #3aa9ff, #9f6bff);
-  color: #fff;
-  border: none;
-  transition: box-shadow .2s, transform .2s;
-  pointer-events: auto;
-}
-.fab:hover {
-  box-shadow: 0 12px 40px rgba(60,120,255,.28);
-  transform: scale(1.08);
-}
-
-/* Stage where bubbles float */
+/* Stage */
 .stage{
-  position:relative;
-  width:100vw;
-  height:100vh;
-  min-width:100vw;
-  min-height:100vh;
-  z-index:1;
-  perspective:1000px;
-  overflow:hidden;
-  touch-action:pan-x pan-y;
+  position:relative; width:100vw; height:100vh; min-width:100vw; min-height:100vh;
+  z-index:2; perspective:1000px; overflow:hidden; touch-action:pan-x pan-y;
 }
+body, html { overflow: hidden; }
+#main-scroll{ position:fixed; inset:0; width:100vw; height:100vh; overflow:hidden; z-index:2; background:transparent; }
 
-body, html {
-  overflow: hidden;
-}
-
-#main-scroll {
-  position:fixed;
-  inset:0;
-  width:100vw;
-  height:100vh;
-  overflow:hidden;
-  z-index:2;
-  background:transparent;
-}
-
-/* Buttons */
+/* Buttons (generic) */
 .btn{background:transparent; border:1px solid rgba(255,255,255,.2); color:var(--text);
   padding:.7rem 1rem; border-radius:16px; cursor:pointer; transition:.25s; backdrop-filter:blur(6px)}
 .btn:hover{transform:translateY(-1px); border-color:rgba(255,255,255,.35)}
@@ -93,9 +82,62 @@ body, html {
 .btn.icon{width:40px; height:40px; display:grid; place-items:center}
 .btn.danger{background:linear-gradient(135deg, #ff6b7b, #f95f9a); border:none}
 
-/* Modal */
-.modal{position:fixed; inset:0; background:rgba(5,8,18,.35);
-  display:none; align-items:center; justify-content:center; z-index:5; backdrop-filter:blur(6px)}
+/* Bubbles (user + “add”) */
+.bubble{
+  --size: 160px; --hue: 220;
+  position:absolute; width:var(--size); height:var(--size);
+  border-radius:50%;
+  background:
+    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 18%, rgba(255,255,255,.06) 35%, rgba(255,255,255,0) 55%),
+    radial-gradient(120% 120% at 70% 80%, rgba(255,255,255,.25) 0%, rgba(255,255,255,0) 45%),
+    conic-gradient(from 0deg,
+      hsla(var(--hue), 95%, 70%, .28),
+      hsla(calc(var(--hue)+60), 95%, 70%, .24),
+      hsla(calc(var(--hue)+120), 95%, 70%, .28),
+      hsla(calc(var(--hue)+180), 95%, 70%, .22),
+      hsla(calc(var(--hue)+240), 95%, 70%, .28),
+      hsla(calc(var(--hue)+300), 95%, 70%, .24),
+      hsla(var(--hue), 95%, 70%, .28));
+  box-shadow:
+    0 0 0 10px rgba(67,129,255,.04),
+    0 25px 80px rgba(60,120,255,.18);
+  mix-blend-mode: screen;
+  filter: saturate(118%) drop-shadow(0 10px 30px rgba(96,160,255,.16));
+  animation: float var(--float, 10s) ease-in-out infinite;
+  transform: translate3d(var(--x, 0px), var(--y, 0px), var(--z, 0px)) scale(var(--scale,1));
+  transition: transform .2s ease, filter .2s ease;
+  will-change: transform;
+  display:flex; align-items:center; justify-content:center; text-align:center; padding:1rem;
+  color:#eef6ff; text-shadow: 0 2px 16px rgba(0,0,0,.25);
+  cursor:grab;
+}
+.bubble:active{cursor:grabbing}
+.bubble .text{pointer-events:none; font-weight:400; font-size:clamp(.9rem, 1.1vw, 1.05rem)}
+
+@keyframes float{
+  0% { transform: translate3d(var(--x, 0px), calc(var(--y, 0px) - 10px), var(--z, 0)) scale(var(--scale,1)); }
+  50%{ transform: translate3d(var(--x, 0px), calc(var(--y, 0px) + 12px), var(--z, 0)) scale(calc(var(--scale,1) * 1.018)); }
+  100%{transform: translate3d(var(--x, 0px), calc(var(--y, 0px) - 10px), var(--z, 0)) scale(var(--scale,1));}
+}
+
+.bubble.add{
+  --hue: 200;
+  box-shadow:
+    0 0 0 12px rgba(255,210,126,.08),
+    0 18px 60px rgba(140,197,255,.38);
+}
+.bubble.add .text{
+  font-weight:600;
+  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  letter-spacing:.06em;
+}
+
+/* Edit modal – alto z-index */
+.modal{
+  position:fixed; inset:0; background:rgba(5,8,18,.4);
+  display:none; align-items:center; justify-content:center; z-index: 200;
+  backdrop-filter: blur(6px); pointer-events:auto;
+}
 .modal.show{display:flex}
 .modal-panel{
   position:relative; width:min(620px, 92vw); padding:1.25rem 1.25rem 1rem;
@@ -111,38 +153,30 @@ body, html {
 }
 #closeModal{position:absolute; right:.6rem; top:.6rem}
 
-/* Bubble */
-.bubble{
-  --size: 160px;
-  --hue: 220;
-  position:absolute; width:var(--size); height:var(--size);
-  border-radius:50%;
-  background:
-    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 18%, rgba(255,255,255,.06) 35%, rgba(255,255,255,0) 55%),
-    radial-gradient(120% 120% at 70% 80%, rgba(255,255,255,.25) 0%, rgba(255,255,255,0) 45%),
-    conic-gradient(from 0deg, hsla(var(--hue), 85%, 70%, .35), hsla(calc(var(--hue)+60), 85%, 70%, .25), hsla(calc(var(--hue)+120), 85%, 70%, .35), hsla(calc(var(--hue)+180), 85%, 70%, .25), hsla(calc(var(--hue)+240), 85%, 70%, .35), hsla(calc(var(--hue)+300), 85%, 70%, .25), hsla(var(--hue), 85%, 70%, .35));
-  box-shadow: inset 0 0 30px rgba(255,255,255,.15), 0 25px 80px rgba(60,120,255,.18);
-  mix-blend-mode: screen;
-  filter: saturate(115%) drop-shadow(0 10px 30px rgba(96,160,255,.16));
-  animation: float var(--float, 10s) ease-in-out infinite;
-  transform: translate3d(var(--x, 0px), var(--y, 0px), var(--z, 0px)) scale(var(--scale,1));
-  transition: transform .2s ease, filter .2s ease;
-  will-change: transform;
-  display:flex; align-items:center; justify-content:center; text-align:center; padding:1rem;
-  color:#eef6ff; text-shadow: 0 2px 16px rgba(0,0,0,.25);
-  cursor:grab;
+/* Mini composer a bolla */
+.composer{
+  position:fixed; inset:0; display:none; align-items:flex-start; justify-content:flex-start;
+  z-index:220; pointer-events:none; /* container trasparente: i click passano fuori */
 }
-.bubble:active{cursor:grabbing}
-.bubble .text{pointer-events:none; font-weight:400; font-size:clamp(.9rem, 1.1vw, 1.05rem)}
-
-@keyframes float{
-  0% { transform: translate3d(var(--x, 0px), calc(var(--y, 0px) - 8px), var(--z, 0)) scale(var(--scale,1)); }
-  50%{ transform: translate3d(var(--x, 0px), calc(var(--y, 0px) + 10px), var(--z, 0)) scale(calc(var(--scale,1) * 1.015)); }
-  100%{transform: translate3d(var(--x, 0px), calc(var(--y, 0px) - 8px), var(--z, 0)) scale(var(--scale,1));}
+.composer.show{ display:flex; }
+.composer-panel{
+  position:absolute; top:0; left:0; transform:translate(-50%,-110%);
+  width:min(420px, 92vw);
+  border-radius:22px;
+  background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 18px 70px rgba(10,20,40,.55);
+  padding:1rem 1rem .9rem;
+  pointer-events:auto; /* questa cattura i click */
 }
-
-.bubble:hover{filter:saturate(125%) brightness(1.05)}
-.bubble.focused{z-index:4; transform:scale(1.15) translateZ(60px)}
+.composer-title{ margin:0 0 .35rem; }
+#composerText{
+  width:100%; min-height:110px; resize:vertical; border-radius:14px; padding:.8rem;
+  background:rgba(10,12,28,.52); color:var(--text); border:1px solid rgba(255,255,255,.16);
+  outline:none; font:400 1rem/1.5 'Outfit',system-ui;
+}
+.composer .row{ display:flex; gap:.6rem; margin-top:.6rem; flex-wrap:wrap }
+#composerClose{ position:absolute; right:.5rem; top:.5rem }
 
 /* Footer */
 .site-footer{
@@ -153,21 +187,9 @@ body, html {
 /* Responsive */
 @media (max-width: 768px){
   .brand{letter-spacing:.35rem}
-  .fab {
-    width: 48px;
-    height: 48px;
-    font-size: 1.5rem;
-    right: 1.1rem;
-    bottom: 1.1rem;
-  }
   .bubble{--size: 100px}
-  .site-header{padding-top:1.2rem;}
-  .stage {
-    width:200vw;
-    height:180vh;
-    overflow:visible;
-  }
-  #main-scroll {
-    overflow:scroll;
-  }
+  .site-header{padding-top:.4rem;}
+  .stage { width:200vw; height:180vh; overflow:visible; }
+  #main-scroll { overflow:scroll; }
+  .composer-panel{ transform:translate(-50%,-104%); }
 }
