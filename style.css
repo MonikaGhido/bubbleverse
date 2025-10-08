@@ -1,0 +1,173 @@
+/* ===== Bubbleverse — Futuristic Dream UI ===== */
+:root{
+  --bg1:#0f1633; --bg2:#1a2247; --nebula1:#5c7cff; --nebula2:#b16fff;
+  --text:#e9f0ff; --muted:#a7b2d6; --glass:rgba(255,255,255,.08);
+  --glow:#7bd5ff;
+}
+*{box-sizing:border-box}
+html,body{height:100%; min-height:100vh;}
+body{
+  margin:0; font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;
+  color:var(--text);
+  background: radial-gradient(1200px 800px at 20% 20%, #1b2350 0%, #0d122b 50%, #090d1e 100%),
+              radial-gradient(800px 600px at 80% 30%, #1b1740 0%, #0c1026 100%),
+              linear-gradient(180deg, var(--bg1), var(--bg2));
+  overflow:hidden;
+  min-height:100vh;
+}
+/* subtle stars canvas sits behind all */
+#stars{
+  position:fixed; inset:0; z-index:0; display:block;
+}
+
+/* Header */
+.site-header{
+  position:fixed; top:0; left:0; width:100vw;
+  text-align:center; z-index:20; user-select:none; pointer-events:none;
+  padding-top:2rem;
+  background: linear-gradient(180deg, rgba(15,22,51,0.95) 80%, rgba(15,22,51,0) 100%);
+  box-sizing:border-box;
+}
+.brand{letter-spacing:.5rem; font-weight:600; margin:0; font-size:clamp(28px, 2.6vw, 48px); text-shadow:0 0 24px rgba(123,213,255,.25)}
+.tagline{margin:.25rem 0 1rem; color:var(--muted); letter-spacing:.3rem; text-transform:uppercase; font-size:.9rem}
+#addBtn:not(.fab){display:none}
+
+/* Floating Action Button (FAB) visibile in basso a destra */
+.fab {
+  position: fixed;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  z-index: 30;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 2.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 32px rgba(60,120,255,.18);
+  background: linear-gradient(135deg, #3aa9ff, #9f6bff);
+  color: #fff;
+  border: none;
+  transition: box-shadow .2s, transform .2s;
+  pointer-events: auto;
+}
+.fab:hover {
+  box-shadow: 0 12px 40px rgba(60,120,255,.28);
+  transform: scale(1.08);
+}
+
+/* Stage where bubbles float */
+.stage{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  min-width:100vw;
+  min-height:100vh;
+  z-index:1;
+  perspective:1000px;
+  overflow:hidden;
+  touch-action:pan-x pan-y;
+}
+
+body, html {
+  overflow: hidden;
+}
+
+#main-scroll {
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  z-index:2;
+  background:transparent;
+}
+
+/* Buttons */
+.btn{background:transparent; border:1px solid rgba(255,255,255,.2); color:var(--text);
+  padding:.7rem 1rem; border-radius:16px; cursor:pointer; transition:.25s; backdrop-filter:blur(6px)}
+.btn:hover{transform:translateY(-1px); border-color:rgba(255,255,255,.35)}
+.btn.primary{background:linear-gradient(135deg, #3aa9ff, #9f6bff); border:none; box-shadow:0 8px 24px rgba(89,122,255,.35)}
+.btn.icon{width:40px; height:40px; display:grid; place-items:center}
+.btn.danger{background:linear-gradient(135deg, #ff6b7b, #f95f9a); border:none}
+
+/* Modal */
+.modal{position:fixed; inset:0; background:rgba(5,8,18,.35);
+  display:none; align-items:center; justify-content:center; z-index:5; backdrop-filter:blur(6px)}
+.modal.show{display:flex}
+.modal-panel{
+  position:relative; width:min(620px, 92vw); padding:1.25rem 1.25rem 1rem;
+  border-radius:22px; background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.18); box-shadow:0 20px 80px rgba(10,20,40,.5);
+}
+.modal-panel .row{display:flex; gap:.6rem; margin-top:.9rem; flex-wrap:wrap}
+.modal-panel .label{display:block; margin:.6rem 0 .3rem; color:var(--muted); font-weight:300}
+#bubbleText{
+  width:100%; min-height:140px; resize:vertical; border-radius:16px; padding:1rem;
+  background:rgba(10,12,28,.55); color:var(--text); border:1px solid rgba(255,255,255,.16);
+  outline:none; font:400 1rem/1.5 'Outfit',system-ui;
+}
+#closeModal{position:absolute; right:.6rem; top:.6rem}
+
+/* Bubble */
+.bubble{
+  --size: 160px;
+  --hue: 220;
+  position:absolute; width:var(--size); height:var(--size);
+  border-radius:50%;
+  background:
+    radial-gradient(120% 120% at 30% 30%, rgba(255,255,255,.75) 0%, rgba(255,255,255,.2) 18%, rgba(255,255,255,.06) 35%, rgba(255,255,255,0) 55%),
+    radial-gradient(120% 120% at 70% 80%, rgba(255,255,255,.25) 0%, rgba(255,255,255,0) 45%),
+    conic-gradient(from 0deg, hsla(var(--hue), 85%, 70%, .35), hsla(calc(var(--hue)+60), 85%, 70%, .25), hsla(calc(var(--hue)+120), 85%, 70%, .35), hsla(calc(var(--hue)+180), 85%, 70%, .25), hsla(calc(var(--hue)+240), 85%, 70%, .35), hsla(calc(var(--hue)+300), 85%, 70%, .25), hsla(var(--hue), 85%, 70%, .35));
+  box-shadow: inset 0 0 30px rgba(255,255,255,.15), 0 25px 80px rgba(60,120,255,.18);
+  mix-blend-mode: screen;
+  filter: saturate(115%) drop-shadow(0 10px 30px rgba(96,160,255,.16));
+  animation: float var(--float, 10s) ease-in-out infinite;
+  transform: translate3d(var(--x, 0px), var(--y, 0px), var(--z, 0px)) scale(var(--scale,1));
+  transition: transform .2s ease, filter .2s ease;
+  will-change: transform;
+  display:flex; align-items:center; justify-content:center; text-align:center; padding:1rem;
+  color:#eef6ff; text-shadow: 0 2px 16px rgba(0,0,0,.25);
+  cursor:grab;
+}
+.bubble:active{cursor:grabbing}
+.bubble .text{pointer-events:none; font-weight:400; font-size:clamp(.9rem, 1.1vw, 1.05rem)}
+
+@keyframes float{
+  0% { transform: translate3d(var(--x, 0px), calc(var(--y, 0px) - 8px), var(--z, 0)) scale(var(--scale,1)); }
+  50%{ transform: translate3d(var(--x, 0px), calc(var(--y, 0px) + 10px), var(--z, 0)) scale(calc(var(--scale,1) * 1.015)); }
+  100%{transform: translate3d(var(--x, 0px), calc(var(--y, 0px) - 8px), var(--z, 0)) scale(var(--scale,1));}
+}
+
+.bubble:hover{filter:saturate(125%) brightness(1.05)}
+.bubble.focused{z-index:4; transform:scale(1.15) translateZ(60px)}
+
+/* Footer */
+.site-footer{
+  position:fixed; bottom:1rem; left:50%; transform:translateX(-50%);
+  color:var(--muted); font-size:.9rem; z-index:2; text-align:center; opacity:.85;
+}
+
+/* Responsive */
+@media (max-width: 768px){
+  .brand{letter-spacing:.35rem}
+  .fab {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+    right: 1.1rem;
+    bottom: 1.1rem;
+  }
+  .bubble{--size: 100px}
+  .site-header{padding-top:1.2rem;}
+  .stage {
+    width:200vw;
+    height:180vh;
+    overflow:visible;
+  }
+  #main-scroll {
+    overflow:scroll;
+  }
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bubbleverse — Digital Dreamscape</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <h1 class="brand">BUBBLEVERSE</h1>
+    <p class="tagline">Cosmic Thought Cloud</p>
+  </header>
+
+  <button id="addBtn" class="btn primary fab" aria-label="Add bubble">+</button>
+
+
+  <div id="main-scroll">
+    <main id="stage" class="stage" aria-live="polite" aria-label="Floating bubbles area">
+      <!-- Bubbles will be injected here -->
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-panel" role="document">
+      <button class="btn icon close" id="closeModal" aria-label="Close">✕</button>
+      <h2 id="modalTitle">New Bubble</h2>
+      <label for="bubbleText" class="label">Your thought</label>
+      <textarea id="bubbleText" maxlength="280" placeholder="Write something dreamy…"></textarea>
+      <div class="row">
+        <button id="saveBubble" class="btn primary">Save</button>
+        <button id="deleteBubble" class="btn danger" hidden>Delete</button>
+        <button id="cancelBubble" class="btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>Made for daydreamers • Stored locally on your device</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
